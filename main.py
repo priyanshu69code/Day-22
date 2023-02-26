@@ -20,8 +20,11 @@ screen.onkey(right_padel.goto_up, "Up")
 screen.onkey(right_padel.goto_down, "Down")
 screen.onkey(left_padel.goto_up, "w")
 screen.onkey(left_padel.goto_down, "s")
+
+
 is_gameover = True
 while is_gameover:
+    ball.move()
     screen.update()
 
 screen.exitonclick()
