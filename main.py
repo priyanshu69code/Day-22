@@ -4,6 +4,7 @@ from paddel import Padel
 import time
 from scoreboard import Scoreboard
 
+SLEEP_TIME = 0.2
 screen = Screen()
 screen.bgcolor("Black")
 screen.setup(height=600, width=800)
@@ -29,7 +30,7 @@ is_gameover = True
 while is_gameover:
     ball.move()
     screen.update()
-    time.sleep(0.2)
+    time.sleep(SLEEP_TIME)
 
     # Detecting Collision with Up and Down Walls
     if ball.ycor() > 280 or ball.ycor() < -280:
@@ -38,15 +39,23 @@ while is_gameover:
     # Detecting Collision with Paddels and Bouncing the ball
     if ball.distance(right_padel) < 50 and ball.xcor() > 320 or ball.distance(left_padel) < 50 and ball.xcor() < -320:
         ball.bounce_x()
+        SLEEP_TIME /= 1.1
 
     # Detecting if Right Paddel missess the ball
     if ball.xcor() > 380:
         ball.reset_poss()
         scoreboard.l_point()
+        SLEEP_TIME = 0.2
 
     # Detecting if Left Paddel missess the Ball
     if ball.xcor() < -380:
         ball.reset_poss()
         scoreboard.r_point()
+        SLEEP_TIME = 0.2
+
+    if scoreboard.l_score == 10 or scoreboard.r_score == 10:
+        print("Game Over")
+        is_gameover = False
+
 
 screen.exitonclick()
